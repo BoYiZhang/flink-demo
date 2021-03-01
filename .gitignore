@@ -1,44 +1,69 @@
-.git
-.svn
-.hg
-.zip
-.gz
-.DS_Store
-.target
-.idea/
-target/
-.settings
-.nbproject
-.classpath
+# Eclipse project files
 .project
+.classpath
+.settings
+
+# IntelliJ IDEA project files and directories
 *.iml
 *.ipr
 *.iws
-*.tgz
-.*.swp
-.vim
-.tmp
-node_modules
-npm-debug.log
-.vscode
-logs/*
+.idea/
+
+# Geany project file
+.geany
+
+# KDevelop project file and directory
+.kdev4/
+*.kdev4
+
+# Build targets
+/target
+*/target
+target
+# Report directories
+/reports
+*/reports
+hadoop-main.iml
+
+# Mac-specific directory that no other operating system needs.
+.DS_Store
+
+# JVM crash logs
+hs_err_pid*.log
+
+dependency-reduced-pom.xml
+
+*/.unison.*
+
+# exclude mainframer files
+mainframer
+.mainframer
+
+# exclude docker-sync stuff
+.docker-sync
+*/.docker-sync
+
+
+.project
+/target/
+target/
+.classpath
+.settings/
+META-INF/
+build.properties
+.idea/
+src/target/
+.DS_Store
+*.iml
+*/target/
+*.class
+*.log
+tools/target/
+*.class
+# Log file
+*.log
+.fbprefs
+.gitattributes
+.github/
 .mvn/
-.www
-t.*
-.factorypath
-Chart.lock
-yarn.lock
-package-lock.json
-config.gypi
-test/coverage
-/docs/zh_CN/介绍
-/docs/zh_CN/贡献代码.md
-dolphinscheduler-common/src/main/resources/zookeeper.properties
-dolphinscheduler-dao/src/main/resources/dao/data_source.properties
-dolphinscheduler-alert/logs/
-dolphinscheduler-alert/src/main/resources/alert.properties_bak
-dolphinscheduler-alert/src/main/resources/logback.xml
-dolphinscheduler-server/src/main/resources/logback.xml
-dolphinscheduler-ui/dist
-dolphinscheduler-ui/node
-docker/build/apache-dolphinscheduler*
+
