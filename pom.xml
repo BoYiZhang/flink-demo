@@ -27,6 +27,7 @@
             <artifactId>flink-core</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
         <!--导入scala的依赖-->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -35,7 +36,7 @@
         </dependency>
 
 
-        <!--模块二 流处理-->
+        <!-- 流处理-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.version}</artifactId>
@@ -74,6 +75,11 @@
             <version>5.1.38</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka_${scala.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
 
 
     </dependencies>
