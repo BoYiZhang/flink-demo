@@ -3,7 +3,7 @@ package com.boyi.datasource
 import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet}
 
 import org.apache.flink.api.scala.createTypeInformation
-import org.apache.flink.streaming.api.functions.source.{RichSourceFunction, SourceFunction}
+import org.apache.flink.streaming.api.functions.source.{RichParallelSourceFunction, RichSourceFunction, SourceFunction}
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 
 object MysqlCustomSource {

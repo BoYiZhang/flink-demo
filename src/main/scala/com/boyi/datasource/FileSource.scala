@@ -1,9 +1,5 @@
 package com.boyi.datasource
 
-
-
-import java.nio.charset.Charset
-
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 
 object FileSource {
