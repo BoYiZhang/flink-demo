@@ -50,7 +50,6 @@ object StreamWindowApply {
 
     // 8. 启动执行
     env.execute("App")
-
   }
 }
 
