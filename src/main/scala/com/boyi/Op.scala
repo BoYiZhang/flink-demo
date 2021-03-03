@@ -1,12 +1,9 @@
-package com.boyi.transform
-
-
+package com.boyi
 
 object Op {
 
 
-
-  def main(args : Array[String]) : Unit = {
+  def main(args: Array[String]): Unit = {
     // 1. 创建流处理环境
 
     // 2.用fromCollection创建DataStream(fromCollection)
@@ -17,7 +14,7 @@ object Op {
 
 
     // 5.执行任务
-    
+
 
   }
 

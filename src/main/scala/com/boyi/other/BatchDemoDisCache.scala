@@ -1,4 +1,4 @@
-package com.boyi.broadcast
+package com.boyi.other
 
 import org.apache.commons.io.FileUtils
 import org.apache.flink.api.common.functions.RichMapFunction
