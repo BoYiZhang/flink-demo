@@ -15,7 +15,7 @@ object KeyBy02Op {
     // 2.用fromCollection创建DataStream(fromCollection)
     val data : DataStream[String] = env.readTextFile("hdfs://h23:8020/tmp/test/score.csv")
     // 3.处理数据
-    val res = data.flatMap(x => x.split(",")).map(x=>(x,1))
+    val res = data.flatMap(x => x.split(",")).map(x=>(x,1)).keyBy(_._1).sum(1)
 
     // 3.打印输出
     res.print()
