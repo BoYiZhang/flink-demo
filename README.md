@@ -17,7 +17,9 @@
 
 ## 2.3.广播变量/累加器/分布式缓存
 > 代码位置:   src/main/scala/com/boyi/other
-## 2.4. xxxx
+## 2.4. sink 操作
+
+> 代码位置:   src/main/scala/com/boyi/sink
 
 ## 2.5. xxxx
 

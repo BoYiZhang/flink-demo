@@ -31,7 +31,7 @@ object MysqlCustomSource {
       //    1. 加载驱动
       Class.forName("com.mysql.jdbc.Driver")
       //    2. 创建连接
-      val connection: Connection = DriverManager.getConnection("jdbc:mysql:///test","root","123456")
+      val connection: Connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tmp?useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root", "root")
       //    3. 创建PreparedStatement
       val sql = "select id,username,password,name from user"
       val ps: PreparedStatement = connection.prepareStatement(sql)

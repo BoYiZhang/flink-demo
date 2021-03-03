@@ -84,7 +84,7 @@ object CollectionSource {
 //    ds14.print()
 
 
-    //15.用Map创建DataStream(不支持)
+    //15.用Map创建DataStream(不支持) DataSet支持
     //val ds15: DataStream[(Int, String)] = env.fromCollection(Map(1 -> "spark", 2 ->"flink"))
     //ds15.print()
 
