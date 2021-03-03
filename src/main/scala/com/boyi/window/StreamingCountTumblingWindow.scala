@@ -15,8 +15,8 @@ object StreamingCountTumblingWindow {
     val data = scoketText.flatMap(_.split(" ")).filter( x=>{x != null && x.trim.length >0 }).map(x=>(x,1))
     //4. 根据key做聚合操作..
     val keyedStream : KeyedStream[(String,Int),String] = data.keyBy(_._1)
-    //5. 相同的key出现五次才做一次sum聚合
-    val res = keyedStream.countWindow(5).sum(1)
+    //5. 相同的key出现三次才做一次sum聚合
+    val res = keyedStream.countWindow(3).sum(1)
     //6. 显示统计结果
     res.print()
     //7. 触发流计算
