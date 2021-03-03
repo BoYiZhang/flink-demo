@@ -1,14 +1,10 @@
 package com.boyi.sink
 
 import java.sql.{Connection, DriverManager, PreparedStatement}
-import java.util.Properties
-
-import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.api.scala.createTypeInformation
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer
 
 object MySqlSink {
   def main(args: Array[String]): Unit = {
