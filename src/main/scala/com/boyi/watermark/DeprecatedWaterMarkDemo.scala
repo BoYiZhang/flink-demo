@@ -8,16 +8,18 @@ import org.apache.flink.api.scala.createTypeInformation
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks
 import org.apache.flink.streaming.api.functions.source.{RichSourceFunction, SourceFunction}
-import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.watermark.Watermark
-import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
 
 import scala.util.Random
+import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
+
+
 
 
 // assignTimestampsAndWatermarks
-object WaterMarkDemo {
+object DeprecatedWaterMarkDemo {
   // 创建一个订单样例类`Order`，包含四个字段（订单ID、用户ID、订单金额、时间戳）
   case class Order (orderId: String, userId: Int, money: Long, timestamp: Long)
 
