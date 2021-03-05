@@ -26,6 +26,7 @@ object WaterMarkDemo {
   def main(args : Array[String]) : Unit = {
     // 1. 创建流处理运行环境
     val env : StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
+    env.setParallelism(1)
     //   2. 设置处理时间为`EventTime`
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     // 4. 创建一个自定义数据源
@@ -43,7 +44,7 @@ object WaterMarkDemo {
           val order = Order(UUID.randomUUID().toString,Random.nextInt(3),Random.nextInt(101),new Date().getTime)
 
           sourceContext.collect(order)
-          TimeUnit.SECONDS.sleep(1)
+          TimeUnit.SECONDS.sleep(2)
         }
       }
 
