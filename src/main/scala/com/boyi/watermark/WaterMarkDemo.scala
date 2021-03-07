@@ -1,15 +1,13 @@
 package com.boyi.watermark
 
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import java.util.{Date, UUID}
 
-import org.apache.commons.lang.time.FastDateFormat
+import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
 import org.apache.flink.api.scala.createTypeInformation
-import org.apache.flink.streaming.api.TimeCharacteristic
-import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks
 import org.apache.flink.streaming.api.functions.source.{RichSourceFunction, SourceFunction}
-import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import org.apache.flink.streaming.api.watermark.Watermark
+import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 import org.apache.flink.streaming.api.windowing.time.Time
 
@@ -25,13 +23,10 @@ object WaterMarkDemo {
     // 1. 创建流处理运行环境
     val env : StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setParallelism(1)
-    //   2. 设置处理时间为`EventTime`
-    env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
-    // 4. 创建一个自定义数据源
+
+    // 2. 创建一个自定义数据源
     val orderDataStream = env.addSource(new RichSourceFunction[Order] {
       var isRunning = true
-
-
       override def run(sourceContext: SourceFunction.SourceContext[Order]): Unit = {
         while (isRunning){
           //   - 随机生成订单ID（UUID）
@@ -52,29 +47,18 @@ object WaterMarkDemo {
     })
 
 
-    // 5. 添加Watermark
+    // 3. 添加Watermark
 
 
-    val watermarkDataStream = orderDataStream.assignTimestampsAndWatermarks(new AssignerWithPeriodicWatermarks[Order] {
-      var currentTimestamp = 0L
-      val delayTime = 2000
+    val watermarkDataStream =  orderDataStream.assignTimestampsAndWatermarks(
+      WatermarkStrategy.forBoundedOutOfOrderness[Order](Duration.ofSeconds(20))
+      .withTimestampAssigner(new SerializableTimestampAssigner[Order] {
+        override def extractTimestamp(element: Order, recordTimestamp: Long): Long = {
+          element.timestamp
+        }
+      })
+    )
 
-      override def getCurrentWatermark: Watermark = {
-        //   - 允许延迟2秒
-        // - 在获取Watermark方法中，打印Watermark时间、当前事件时间和当前系统时间
-        val watermark = new Watermark(currentTimestamp - delayTime)
-        val dateFormat = FastDateFormat.getInstance("HH:mm:ss")
-
-        println(s"当前Watermark时间:${dateFormat.format(watermark.getTimestamp)}, 当前事件时间: ${dateFormat.format(currentTimestamp)}, 当前系统时间: ${dateFormat.format(System.currentTimeMillis())}")
-        watermark
-      }
-
-      override def extractTimestamp(element: Order, previousElementTimestamp: Long): Long = {
-        val timestamp = element.timestamp
-        currentTimestamp = Math.max(currentTimestamp, timestamp)
-        currentTimestamp
-      }
-    })
 
     // 6. 按照用户进行分流
     // 7. 设置5秒的时间窗口
