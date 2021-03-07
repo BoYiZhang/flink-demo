@@ -13,8 +13,8 @@ import org.apache.flink.streaming.api.windowing.time.Time
 
 import scala.util.Random
 
+// 在非数据源的操作之后使用 WaterMark
 
-// assignTimestampsAndWatermarks
 object WaterMarkDemo {
   // 创建一个订单样例类`Order`，包含四个字段（订单ID、用户ID、订单金额、时间戳）
   case class Order (orderId: String, userId: Int, money: Long, timestamp: Long)
@@ -48,8 +48,6 @@ object WaterMarkDemo {
 
 
     // 3. 添加Watermark
-
-
     val watermarkDataStream =  orderDataStream.assignTimestampsAndWatermarks(
       WatermarkStrategy.forBoundedOutOfOrderness[Order](Duration.ofSeconds(20))
       .withTimestampAssigner(new SerializableTimestampAssigner[Order] {
