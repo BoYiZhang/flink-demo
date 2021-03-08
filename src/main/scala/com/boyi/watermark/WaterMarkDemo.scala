@@ -55,6 +55,7 @@ object WaterMarkDemo {
           element.timestamp
         }
       })
+      .withIdleness(Duration.ofMinutes(1))
     )
 
 

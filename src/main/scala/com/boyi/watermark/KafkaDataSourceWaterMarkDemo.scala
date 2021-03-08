@@ -46,7 +46,11 @@ object KafkaDataSourceWaterMarkDemo {
     val kafkaSource = new FlinkKafkaConsumer(kafkaTopic,new SimpleStringSchema(),props)
 
     // 3. 设置watermark
-    kafkaSource.assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness[String](Duration.ofSeconds(20)))
+    kafkaSource.assignTimestampsAndWatermarks(
+      WatermarkStrategy
+        .forBoundedOutOfOrderness[String](Duration.ofSeconds(20))
+        .withIdleness(Duration.ofMinutes(1))
+    )
 
     // 4. 添加数据源
     val watermarkDataStream  = env.addSource(kafkaSource)
