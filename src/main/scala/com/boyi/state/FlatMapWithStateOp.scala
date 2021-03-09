@@ -7,10 +7,10 @@ import org.apache.flink.api.scala._
 /**
  *
  *
- * mapWithState 函数说明 :
+ * flatMapWithState 函数说明 :
  *
- * mapWithState[R, S]
- *  (fun : scala.Function2[T, scala.Option[S], scala.Tuple2[ R, scala.Option[S] ]])
+ * flatMapWithState[R, S]
+ *  (fun : scala.Function2[T, scala.Option[S], scala.Tuple2[ scala.TraversableOnce[R], scala.Option[S] ]])
  * R: TypeInformation （return返回类型）
  * S: TypeInformation （stateful状态类型）
  * T （input 输入类型）
