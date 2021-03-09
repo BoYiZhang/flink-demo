@@ -20,7 +20,7 @@ import org.apache.flink.api.scala._
  *
  * 案例 : 计算 动态计算 每个key的平均数
  */
-object MapWithStateOp extends  App {
+object FlatMapWithStateOp extends  App {
 
   val env = StreamExecutionEnvironment.getExecutionEnvironment
 
@@ -33,18 +33,18 @@ object MapWithStateOp extends  App {
     (2L,10L),
     (2L,2L)
   )).keyBy(_._1)
-    .mapWithState[(Long,Long),(Long,Long)]((input: (Long,Long), out: Option[(Long,Long)]) =>
-      out match {
+    //
+    .flatMapWithState[(Long,Long),(Long,Long)]((input: (Long,Long), state: Option[(Long,Long)]) =>
+      state match {
         case Some(state) => {
           // return  : (key,平均数) , ()
           // state   : (value个数,value总和)
-          ((input._1,((state._2+input._2)/(state._1+1))),Some((state._1+1, state._2+input._2)))
+          ( List((input._1,((state._2+input._2)/(state._1+1)))),Some((state._1+1,state._2+input._2)) )
         }
-        case None => ((input._1,input._2),Some((1L,input._2)))
-      }).map(x => {
-    "key : "+x._1+" ===> avg : "+x._2
-  }).print()
+        case None => ( List((input._1,input._2)),Some((1L,input._2)) )
+      }).map(x=> "key : "+x._1 + "  ====> value : " + x._2)
+      .print()
 
 
-  env.execute("MapWithStateOp")
+  env.execute("FlatMapWithStateOp")
 }
