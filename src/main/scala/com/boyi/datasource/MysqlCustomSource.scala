@@ -1,8 +1,8 @@
 package com.boyi.datasource
 
 import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet}
-
 import org.apache.flink.api.scala.createTypeInformation
+import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.source.{RichParallelSourceFunction, RichSourceFunction, SourceFunction}
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 
@@ -26,15 +26,25 @@ object MysqlCustomSource {
   //  1. 自定义Source,继承自RichSourceFunction
   class MysqlSource extends RichSourceFunction[(Int,String,String,String)]{
 
-    //  2. 实现run方法
-    override def run(sourceContext: SourceFunction.SourceContext[(Int, String, String, String)]): Unit = {
+    var connection:  Connection = null;
+    var ps:  PreparedStatement = null;
+
+    override def open(parameters: Configuration): Unit = {
+      super.open(parameters)
+
       //    1. 加载驱动
       Class.forName("com.mysql.jdbc.Driver")
       //    2. 创建连接
-      val connection: Connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tmp?useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root", "root")
+      connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tmp?useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root", "root")
       //    3. 创建PreparedStatement
       val sql = "select id,username,password,name from user"
-      val ps: PreparedStatement = connection.prepareStatement(sql)
+      ps = connection.prepareStatement(sql)
+
+    }
+
+    //  2. 实现run方法
+    override def run(sourceContext: SourceFunction.SourceContext[(Int, String, String, String)]): Unit = {
+
       //    4. 执行查询
       val resultSet: ResultSet = ps.executeQuery()
       //    5. 遍历查询结果,收集数据
@@ -49,7 +59,14 @@ object MysqlCustomSource {
       }
     }
 
-    override def cancel(): Unit = ()
+    override def cancel(): Unit = {
+      if(null != connection){
+        connection.close()
+      }
+      if (ps != null) {
+        ps.close()
+      }
+    }
   }
 
 
